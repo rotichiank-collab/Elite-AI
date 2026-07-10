@@ -1,53 +1,52 @@
 import { useEffect, useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { getCurrentUser } from "./api/auth";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import "./App.css";
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-
 function App() {
-  const [healthStatus, setHealthStatus] = useState("Checking backend...");
-  const [healthMessage, setHealthMessage] = useState("");
+  const [user, setUser] = useState(null);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
 
   useEffect(() => {
-    async function checkBackendHealth() {
+    async function checkSession() {
       try {
-        const response = await fetch(`${apiBaseUrl}/api/health`);
-
-        if (!response.ok) {
-          throw new Error("Backend returned an error");
-        }
-
-        const data = await response.json();
-
-        setHealthStatus(data.status);
-        setHealthMessage(data.message);
-      } catch (error) {
-        setHealthStatus("error");
-        setHealthMessage("Could not connect to the Flask backend.");
+        const data = await getCurrentUser();
+        setUser(data.user);
+      } catch {
+        setUser(null);
+      } finally {
+        setIsCheckingSession(false);
       }
     }
 
-    checkBackendHealth();
+    checkSession();
   }, []);
 
-  return (
-    <main className="app-shell">
-      <section className="status-panel">
-        <p className="eyebrow">Elite AI</p>
-        <h1>AI Training Jobs</h1>
-        <p className="intro">
-          Frontend foundation is running. This page checks whether React can
-          connect to the Flask backend.
-        </p>
+  if (isCheckingSession) {
+    return (
+      <main className="app-shell">
+        <section className="auth-panel">
+          <p>Checking session...</p>
+        </section>
+      </main>
+    );
+  }
 
-        <div className="health-card">
-          <span className={`status-dot ${healthStatus}`} />
-          <div>
-            <strong>Backend status: {healthStatus}</strong>
-            <p>{healthMessage}</p>
-          </div>
-        </div>
-      </section>
-    </main>
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={user ? <HomePage user={user} setUser={setUser} /> : <LoginPage setUser={setUser} />}
+      />
+      <Route
+        path="/register"
+        element={user ? <Navigate to="/" replace /> : <RegisterPage setUser={setUser} />}
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 

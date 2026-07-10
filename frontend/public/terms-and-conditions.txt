@@ -1,0 +1,25 @@
+Elite AI Terms and Conditions
+
+1. Eligibility
+Users must provide truthful and accurate information when creating an account and completing their profile.
+
+2. CV Verification
+Elite AI may require users to submit a CV for verification before accessing AI training gigs. The CV verification service costs 100 USD.
+
+3. No CV Forgery
+Users must not upload forged, false, misleading, edited, or fraudulent CVs. Forgery or misrepresentation may lead to account suspension or deletion.
+
+4. Job Access
+Users may only access gigs after meeting Elite AI minimum requirements and receiving CV approval.
+
+5. Payments and Payouts
+Gig payments and withdrawals may later be handled through third-party providers such as Stripe, PayPal, Sendwave, or other supported services.
+
+6. No Guarantee of Work
+Verification does not guarantee that a user will receive gigs. Gig availability depends on company needs, user eligibility, and project requirements.
+
+7. Account Responsibility
+Users are responsible for keeping their login details secure and for all activity on their account.
+
+8. Changes
+Elite AI may update these terms as the platform develops.

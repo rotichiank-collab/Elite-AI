@@ -1,10 +1,22 @@
 import { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { getCurrentUser } from "./api/auth";
+import AccountPage from "./pages/AccountPage";
+import GigsPage from "./pages/GigsPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import PayoutsPage from "./pages/PayoutsPage";
+import ProfilePage from "./pages/ProfilePage";
 import RegisterPage from "./pages/RegisterPage";
 import "./App.css";
+
+function ProtectedRoute({ user, children }) {
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
 
 function App() {
   const [user, setUser] = useState(null);
@@ -39,13 +51,68 @@ function App() {
     <Routes>
       <Route
         path="/"
-        element={user ? <HomePage user={user} setUser={setUser} /> : <LoginPage setUser={setUser} />}
+        element={
+          user ? <Navigate to="/home" replace /> : <LoginPage setUser={setUser} />
+        }
       />
+
       <Route
         path="/register"
-        element={user ? <Navigate to="/" replace /> : <RegisterPage setUser={setUser} />}
+        element={
+          user ? (
+            <Navigate to="/home" replace />
+          ) : (
+            <RegisterPage setUser={setUser} />
+          )
+        }
       />
-      <Route path="*" element={<Navigate to="/" replace />} />
+
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute user={user}>
+            <HomePage user={user} setUser={setUser} />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/account"
+        element={
+          <ProtectedRoute user={user}>
+            <AccountPage user={user} setUser={setUser} />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute user={user}>
+            <ProfilePage user={user} />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/gigs"
+        element={
+          <ProtectedRoute user={user}>
+            <GigsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/payouts"
+        element={
+          <ProtectedRoute user={user}>
+            <PayoutsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route path="*" element={<Navigate to={user ? "/home" : "/"} replace />} />
     </Routes>
   );
 }

@@ -105,6 +105,78 @@ h1 {
   background: #dc2626;
 }
 
+.home-actions a {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  border-radius: 6px;
+  padding: 10px 16px;
+  color: #ffffff;
+  background: #1d4ed8;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.home-actions a:hover {
+  background: #1e40af;
+}
+
+.settings-list {
+  display: grid;
+  gap: 12px;
+  max-width: 360px;
+  margin-top: 28px;
+}
+
+.danger-button {
+  background: #b91c1c;
+}
+
+.danger-button:hover {
+  background: #991b1b;
+}
+
+.notice-box {
+  margin-top: 24px;
+  border: 1px solid #facc15;
+  border-radius: 8px;
+  padding: 16px;
+  color: #713f12;
+  background: #fefce8;
+  line-height: 1.5;
+}
+
+.profile-preview {
+  display: grid;
+  gap: 8px;
+  margin: 24px 0;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  padding: 16px;
+  background: #f8fafc;
+}
+
+.profile-preview p {
+  margin: 0;
+}
+
+.option-list {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.option-list li {
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  padding: 14px;
+  background: #f8fafc;
+  color: #344054;
+  font-weight: 650;
+}
+
 @media (max-width: 560px) {
   .status-panel {
     padding: 28px 20px;

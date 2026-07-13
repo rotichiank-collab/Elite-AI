@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { logoutUser } from "../api/auth";
 
 const careers = [
@@ -34,14 +35,20 @@ function HomePage({ user, setUser }) {
                 </header>
 
                 <nav className="home-actions" aria-label="Main navigation">
-                    <button type="button">Account</button>
-                    <button type="button">Profile</button>
-                    <button type="button">Gigs</button>
-                    <button type="button">Pay-outs</button>
+                    <Link to="/account">Account</Link>
+                    <Link to="/profile">Profile</Link>
+                    <Link to="/gigs">Gigs</Link>
+                    <Link to="/payouts">Pay-outs</Link>
                 </nav>
 
                 <section className="career-list" aria-labelledby="careers-heading">
                     <h2 id="careers-heading">Career areas</h2>
+                    <p>
+                        Elite AI jobs support teams that train, test, and improve AI
+                        systems. The work may include reviewing AI responses, labeling
+                        content, checking search quality, and evaluating safety.
+                    </p>
+
                     <ul>
                         {careers.map((career) => (
                             <li key={career}>{career}</li>

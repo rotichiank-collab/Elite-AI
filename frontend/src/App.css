@@ -177,6 +177,20 @@ h1 {
   font-weight: 650;
 }
 
+.account-form {
+  max-width: 520px;
+  margin-top: 24px;
+}
+
+.form-success {
+  margin: 24px 0 0;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: #166534;
+  background: #f0fdf4;
+}
+
 @media (max-width: 560px) {
   .status-panel {
     padding: 28px 20px;

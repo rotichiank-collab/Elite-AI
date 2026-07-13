@@ -45,3 +45,16 @@ export function logoutUser() {
 export function getCurrentUser() {
     return request("/api/auth/me");
 }
+
+export function changePassword(payload) {
+    return request("/api/account/password", {
+        method: "PATCH",
+        body: JSON.stringify(payload),
+    });
+}
+
+export function deleteAccount() {
+    return request("/api/account", {
+        method: "DELETE",
+    });
+}

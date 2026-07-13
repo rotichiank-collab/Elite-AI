@@ -25,3 +25,19 @@ class RegisterSchema(Schema):
 class LoginSchema(Schema):
     email = fields.Email(required=True)
     password = fields.String(required=True, load_only=True)
+
+class ChangePasswordSchema(Schema):
+    current_password = fields.String(required=True, load_only=True)
+    new_password = fields.String(
+        required=True,
+        load_only=True,
+        validate=validate.Length(min=8, max=128),
+    )
+    confirm_new_password = fields.String(required=True, load_only=True)
+
+    @validates_schema
+    def validate_new_passwords_match(self, data, **kwargs):
+        if data["new_password"] != data["confirm_new_password"]:
+            raise ValidationError(
+                {"confirm_new_password": ["New passwords must match."]}
+            )

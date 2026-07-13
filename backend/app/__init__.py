@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
 
+from app.account_routes import account_bp
 from app.auth_routes import auth_bp
 from app.extensions import db, migrate
 from app.routes import main_bp
@@ -36,5 +37,6 @@ def create_app():
 
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(account_bp)
 
     return app

@@ -41,3 +41,34 @@ class ChangePasswordSchema(Schema):
             raise ValidationError(
                 {"confirm_new_password": ["New passwords must match."]}
             )
+        
+class ProfileSchema(Schema):
+    full_name = fields.String(
+        required=True,
+        validate=validate.Length(min=2, max=120),
+    )
+    home_address = fields.String(
+        required=False,
+        allow_none=True,
+        load_default=None,
+        validate=validate.Length(max=255),
+    )
+    country = fields.String(
+        required=False,
+        allow_none=True,
+        load_default=None,
+        validate=validate.Length(max=100),
+    )
+    phone_number = fields.String(
+        required=False,
+        allow_none=True,
+        load_default=None,
+        validate=validate.Length(max=40),
+    )
+    email = fields.Email(required=True)
+    linkedin_url = fields.Url(
+        required=False,
+        allow_none=True,
+        load_default=None,
+        validate=validate.Length(max=255),
+    )

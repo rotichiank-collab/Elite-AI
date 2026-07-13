@@ -38,3 +38,59 @@ class User(db.Model):
             "email": self.email,
             "role": self.role,
         }
+    
+class Profile(db.Model):
+    __tablename__ = "profiles"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        unique=True,
+        index=True,
+    )
+    full_name = db.Column(db.String(120), nullable=False)
+    home_address = db.Column(db.String(255), nullable=True)
+    country = db.Column(db.String(100), nullable=True)
+    phone_number = db.Column(db.String(40), nullable=True)
+    email = db.Column(db.String(255), nullable=False)
+    linkedin_url = db.Column(db.String(255), nullable=True)
+    verification_status = db.Column(
+        db.String(40),
+        nullable=False,
+        default="not_submitted",
+    )
+    created_at = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=lambda: datetime.now(timezone.utc),
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc),
+    )
+
+    user = db.relationship(
+        "User",
+        backref=db.backref(
+            "profile",
+            uselist=False,
+            cascade="all, delete-orphan",
+        ),
+    )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "full_name": self.full_name,
+            "home_address": self.home_address,
+            "country": self.country,
+            "phone_number": self.phone_number,
+            "email": self.email,
+            "linkedin_url": self.linkedin_url,
+            "verification_status": self.verification_status,
+        }

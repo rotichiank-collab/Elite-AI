@@ -22,6 +22,15 @@ def create_app():
         "sqlite:///elite_ai_dev.sqlite3",
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+    max_cv_upload_mb = int(os.getenv("MAX_CV_UPLOAD_MB", "5"))
+    
+    app.config["MAX_CONTENT_LENGTH"] = max_cv_upload_mb * 1024 * 1024
+    app.config["CV_UPLOAD_FOLDER"] = os.getenv(
+        "CV_UPLOAD_FOLDER",
+        os.path.join(app.instance_path, "uploads", "cvs"),
+    )
+
     app.config["SESSION_COOKIE_HTTPONLY"] = True
     app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 

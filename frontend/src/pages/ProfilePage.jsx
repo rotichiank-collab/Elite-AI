@@ -5,6 +5,7 @@ import {
     deleteProfile,
     getProfile,
     updateProfile,
+    uploadCv,
 } from "../api/auth";
 
 function ProfilePage({ user }) {
@@ -21,6 +22,8 @@ function ProfilePage({ user }) {
     const [isSaving, setIsSaving] = useState(false);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [cvFile, setCvFile] = useState(null);
+    const [isUploadingCv, setIsUploadingCv] = useState(false);
 
     useEffect(() => {
         async function loadProfile() {
@@ -112,6 +115,35 @@ function ProfilePage({ user }) {
         }
     }
 
+    async function handleCvUpload() {
+        setMessage("");
+        setError("");
+
+        if (!profile) {
+            setError("Create your profile before uploading a CV.");
+            return;
+        }
+
+        if (!cvFile) {
+            setError("Choose a CV file first.");
+            return;
+        }
+
+        setIsUploadingCv(true);
+
+        try {
+            const data = await uploadCv(cvFile);
+            setProfile(data.profile);
+            setCvFile(null);
+            setMessage("CV uploaded successfully.");
+        } catch (caughtError) {
+            setError(caughtError.message);
+        } finally {
+            setIsUploadingCv(false);
+        }
+    }
+
+
     if (isLoading) {
         return (
             <main className="app-shell">
@@ -121,6 +153,7 @@ function ProfilePage({ user }) {
             </main>
         );
     }
+
 
     return (
         <main className="app-shell">
@@ -217,15 +250,31 @@ function ProfilePage({ user }) {
                         />
                     </label>
 
-                    <label>
-                        CV upload
-                        <input disabled type="file" />
-                    </label>
+                    <div className="cv-upload-box">
+                        <h2>CV upload</h2>
 
-                    <p className="helper-text">
-                        CV upload will be enabled in the next step. Accepted formats will be
-                        PDF, DOC, and DOCX.
-                    </p>
+                        {profile?.cv_original_filename ? (
+                            <p>
+                                Current CV: <strong>{profile.cv_original_filename}</strong>
+                            </p>
+                        ) : (
+                            <p>No CV uploaded yet.</p>
+                        )}
+
+                        <input
+                            accept=".pdf,.doc,.docx"
+                            onChange={(event) => setCvFile(event.target.files[0] || null)}
+                            type="file"
+                        />
+
+                        <button disabled={isUploadingCv} onClick={handleCvUpload} type="button">
+                            {isUploadingCv ? "Uploading..." : "Upload CV"}
+                        </button>
+
+                        <p className="helper-text">
+                            Accepted formats: PDF, DOC, DOCX. Maximum size: 5 MB.
+                        </p>
+                    </div>
 
                     <div className="form-actions">
                         <button disabled={isSaving} type="submit">

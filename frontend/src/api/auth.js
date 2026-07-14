@@ -85,3 +85,28 @@ export function deleteProfile() {
         method: "DELETE",
     });
 }
+
+export async function uploadCv(file) {
+    const formData = new FormData();
+    formData.append("cv", file);
+
+    const response = await fetch(`${API_BASE_URL}/api/profile/cv`, {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        const message =
+            data.error ||
+            data.message ||
+            (data.errors ? JSON.stringify(data.errors) : null) ||
+            "Something went wrong. Please try again.";
+
+        throw new Error(message);
+    }
+
+    return data;
+}

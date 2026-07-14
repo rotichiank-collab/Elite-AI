@@ -218,6 +218,26 @@ h1 {
   text-transform: capitalize;
 }
 
+.cv-upload-box {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  padding: 16px;
+  background: #f8fafc;
+}
+
+.cv-upload-box h2,
+.cv-upload-box p {
+  margin: 0;
+}
+
+.cv-upload-box form {
+  display: grid;
+  gap: 12px;
+}
+
 @media (max-width: 560px) {
   .status-panel {
     padding: 28px 20px;

@@ -14,7 +14,10 @@ async function request(path, options = {}) {
 
     if (!response.ok) {
         const message =
-            data.error || data.message || "Something went wrong. Please try again.";
+            data.error ||
+            data.message ||
+            (data.errors ? JSON.stringify(data.errors) : null) ||
+            "Something went wrong. Please try again.";
 
         throw new Error(message);
     }
@@ -55,6 +58,30 @@ export function changePassword(payload) {
 
 export function deleteAccount() {
     return request("/api/account", {
+        method: "DELETE",
+    });
+}
+
+export function getProfile() {
+    return request("/api/profile");
+}
+
+export function createProfile(payload) {
+    return request("/api/profile", {
+        method: "POST",
+        body: JSON.stringify(payload),
+    });
+}
+
+export function updateProfile(payload) {
+    return request("/api/profile", {
+        method: "PATCH",
+        body: JSON.stringify(payload),
+    });
+}
+
+export function deleteProfile() {
+    return request("/api/profile", {
         method: "DELETE",
     });
 }
